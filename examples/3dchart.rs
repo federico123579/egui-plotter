@@ -13,7 +13,7 @@ fn main() {
     eframe::run_native(
         "3d Chart Example",
         native_options,
-        Box::new(|cc| Box::new(Chart3d::new(cc))),
+        Box::new(|cc| Ok(Box::new(Chart3d::new(cc)))),
     )
     .unwrap();
 }
@@ -47,7 +47,7 @@ impl Chart3d {
                 let z_axis = (-3.0..3.0).step(0.1);
 
                 let mut chart = ChartBuilder::on(area)
-                    .caption(format!("3D Plot Test"), (FontFamily::SansSerif, 20))
+                    .caption("3D Plot Test", (FontFamily::SansSerif, 20))
                     .build_cartesian_3d(x_axis, -3.0..3.0, z_axis)
                     .unwrap();
 

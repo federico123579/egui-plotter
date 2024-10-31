@@ -10,14 +10,13 @@ use plotters::prelude::*;
 const MOVE_SCALE: f32 = 0.01;
 const SCROLL_SCALE: f32 = 0.001;
 
-fn main() {
+fn main() -> Result<(), eframe::Error> {
     let native_options = eframe::NativeOptions::default();
     eframe::run_native(
         "3d Example",
         native_options,
-        Box::new(|cc| Box::new(ThreeD::new(cc))),
+        Box::new(|cc| Ok(Box::new(ThreeD::new(cc)))),
     )
-    .unwrap();
 }
 
 struct ThreeD {
@@ -63,7 +62,7 @@ impl eframe::App for ThreeD {
                     false => (self.chart_pitch_vel, self.chart_yaw_vel),
                 };
 
-                let scale_delta = input.scroll_delta.y * SCROLL_SCALE;
+                let scale_delta = input.raw_scroll_delta.y * SCROLL_SCALE;
 
                 (pitch_delta, yaw_delta, scale_delta)
             });
@@ -84,7 +83,7 @@ impl eframe::App for ThreeD {
             let z_axis = (-3.0..3.0).step(0.1);
 
             let mut chart = ChartBuilder::on(&root)
-                .caption(format!("3D Plot Test"), (FontFamily::SansSerif, 20))
+                .caption("3D Plot Test", (FontFamily::SansSerif, 20))
                 .build_cartesian_3d(x_axis, -3.0..3.0, z_axis)
                 .unwrap();
 

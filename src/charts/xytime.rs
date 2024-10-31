@@ -60,8 +60,8 @@ struct XyTimeConfig {
 /// 3 of which are just strings.
 ///
 ///  * `points`: A slice of tuples, arranged so that the first float is the x position, the second
-///  the y position, and the third is the time the next point is to be shown at(or in the case of
-///  the last point, the time the animation ends).
+///     the y position, and the third is the time the next point is to be shown at(or in the case of
+///     the last point, the time the animation ends).
 ///  * `x_unit`: String describing the data on the X axis.
 ///  * `y_unit`: String describing the data on the Y axis.
 ///  * `caption`: String to be shown as the caption of the chart.
@@ -251,9 +251,9 @@ impl XyTimeData {
                     .bold_line_style(data.grid_style)
                     .light_line_style(data.subgrid_style)
                     .axis_style(data.axes_style)
-                    .x_desc(&data.x_unit.to_string())
+                    .x_desc(data.x_unit.to_string())
                     .set_all_tick_mark_size(4)
-                    .y_desc(&data.y_unit.to_string())
+                    .y_desc(data.y_unit.to_string())
                     .draw()
                     .unwrap();
 
@@ -278,7 +278,7 @@ impl XyTimeData {
         let start_time = Some(Instant::now() - Duration::from_secs_f32(time));
         match self.playback_start {
             Some(_) => {
-                if let Some(_) = self.pause_start {
+                if self.pause_start.is_some() {
                     self.pause_start = Some(Instant::now());
                 }
 
@@ -424,7 +424,7 @@ impl XyTimeData {
     /// Draw the chart to a Ui. Will also proceed to animate the chart if playback is currently
     /// enabled.
     pub fn draw(&mut self, ui: &Ui) {
-        if let Some(_) = self.playback_start {
+        if self.playback_start.is_some() {
             let time = self.current_time();
 
             let time_index = match self
@@ -483,7 +483,7 @@ impl XyTimeData {
     #[inline]
     /// Return true if playback is currently enabled & underway.
     pub fn is_playing(&self) -> bool {
-        self.playback_start != None && self.pause_start == None
+        self.playback_start.is_some() && self.pause_start.is_none()
     }
 
     #[inline]

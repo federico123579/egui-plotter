@@ -82,9 +82,9 @@ impl MouseButton {
 /// MouseConfig allows you to change the ways the user interacts with your chart in the following
 /// ways:
 ///  * `drag`, `rotate`, & `zoom` - Enables dragging, rotating, and zooming in on your plots with
-///  mouse controls.
+///     mouse controls.
 ///  * `pitch_scale` & `yaw_scale` - Modifies how quickly the pitch and yaw are rotated when rotating with the
-///  mouse.
+///     mouse.
 ///  * `zoom_scale` - Modifies how quickly you zoom in/out.
 ///  * `drag_bind` - Mouse button bound to dragging your plot.
 ///  * `rotate_bind` - Mouse button bound to rotating your plot.
@@ -354,7 +354,7 @@ impl<Data> Chart<Data> {
 
             // Adjust zoom if zoom is enabled
             if self.mouse.zoom {
-                let scale_delta = input.scroll_delta.y * self.mouse.zoom_scale;
+                let scale_delta = input.raw_scroll_delta.y * self.mouse.zoom_scale;
 
                 // !TODO! make scaling exponential
                 transform.scale = (transform.scale + scale_delta as f64).abs();
